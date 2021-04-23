@@ -10,7 +10,7 @@ Path_to_DEFF_file.
 
 example: C:\loddump\deff.bin
 
-the tool will provide some useful information about the file. Such size in Bytes, number of folders, subfolders and number of files!.
+the tool will provide some useful information about the file. Such as size in Bytes, number of folders, subfolders and number of files!.
 also it will create a folder in the same DEFF file folder, where the files are unpacked!.
 
 
