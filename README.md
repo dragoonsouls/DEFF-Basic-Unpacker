@@ -1,6 +1,6 @@
 # DEFF-Basic-Unpacker 0.1
 DEFF Basic Unpacker is a tool for Unpack the DEFF files from the game TLoD,
-as a first project do the job!, anyway, for now only support 1 file input!, so stay tuned for Updates!.
+as a first project it works!, anyway, for now only support 1 file input!, so stay tuned for Updates!.
 
 Just open with Python in a commmand prompt 
 write the path to the file deff_basic_unpacker.py, and execute!.
