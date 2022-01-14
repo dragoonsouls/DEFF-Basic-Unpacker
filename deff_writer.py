@@ -5,7 +5,7 @@ File Writer for DEFF Basic Unpacker
 Copyright (C) 2022 DooMMetaL
 
 """
-from itertools import zip_longest
+
 import os
 import deff_reader
 import deff_chunker
