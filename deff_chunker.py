@@ -2,124 +2,82 @@
 
 DEFF chunker for DEFF Basic Unpacker
 
-Copyright (C) 2021 DooMMetaL
+Copyright (C) 2022 DooMMetaL
 
 """
 
-import os
-import re
-from global_variables import *
+from itertools import zip_longest
+import deff_reader
 
-def list_dict(): # List to Dict
-    with open(single_file, 'rb') as list_d:
-        list_d.seek(8) # Reading offset to jump the first 8 bytes
-        first_id = list_d.read(4)
-        first_id_list = list(first_id)
-        list_d.seek(8) # This reset the read offset
-        file_to_list = list_d.read()
-        count = file_to_list.count(first_id) # Counting the times that first FILE appears and the second one
-        index_num = file_to_list.rindex(first_id) # Offset where of next ocurrence
-        file_2_list = list(file_to_list)
-        file_index = file_2_list[0:index_num] # The index of all files in the DEFF in list mode
-    return file_index, index_num # the List and the number of index to use later
+class DeffSplit:
+    def __init__(self, list_files, split_file):
+        self.self = DeffSplit
+        self.list_of_files = list_files
+        self.split_the_file = split_file
     
+    def list_of_files(self): # CONVERSION FROM THE LIST READEABLE DATA
+        global file_complete
+        file_complete = deff_reader.read_all_deff
+        list_in_file = deff_reader.read_file_numbers * 8
+        file_list = file_complete[:list_in_file]
 
-list_to_dict, indexnumeral = list_dict() # Multiple assign to the List and to the Int
+        counter_files = deff_reader.read_file_numbers
+        file_id_count = 0
+        file_address_count = 4
+        files_id = []
+        files_address = []
+        while counter_files > 0:
+            id_file = file_list[file_id_count:file_address_count]
+            address_file = file_list[file_address_count:(file_address_count + 4)]
+            files_id.append(id_file)
+            files_address.append(address_file)
+            counter_files -= 1
+            file_id_count += 8
+            file_address_count += 8
+        
+        # FILE ID CONVERSION TO STRING
+        global file_id_string
+        file_id_string = []
+        for id in files_id:
+            id_1_value = int.from_bytes(id[0:1], 'little')
+            id_2_value = int.from_bytes(id[1:2], 'little')
+            id_3_value = int.from_bytes(id[2:3], 'little')
+            id_4_value = int.from_bytes(id[3:4], 'little')
+            id_string = f'[{id_1_value}_{id_2_value}_{id_3_value}_{id_4_value}]'
+            file_id_string.append(id_string)
+        
+        # FILE ADDRESS CONVERSION TO INTEGER
+        file_address_int = []
+        for address in files_address:
+            address_to_int = (int.from_bytes(address, 'little') - 8)
+            file_address_int.append(address_to_int)
+        
+        # TOTAL LENGTH TO READ FOR EACH FILE
 
-
-
-def fileid_counter(): # This function right here calculate the number of start/end of each FILE ID index in list
-    start_id =[]
-    finish_id = []
-    for startid in range(0, indexnumeral + 4, 8):
-        start_id.append(startid)
-    for finishid in range(4, indexnumeral + 8, 8):
-        finish_id.append(finishid)
-    return start_id, finish_id
-
-
-start_file_id, finish_file_id = fileid_counter() # Multiple assign to the list of FILE ID Counter
-
-range_fileid = zip(start_file_id, finish_file_id) # Zip the values to obtain the Tuple
-range_fileid_unzipped = list(range_fileid) # Unzziping to get the List
-
-
-
-def offset_counter(): # This function right here calculate the start/end of each offset in the index of the list
-    start_offset =[]
-    finish_offset = []
-    for startoffset in range(4, indexnumeral + 8, 8):
-        start_offset.append(startoffset)
-    for finishoffset in range(8, indexnumeral + 12, 8):
-        finish_offset.append(finishoffset)
-    return start_offset, finish_offset
-
-
-start_file_offset, finish_file_offset = offset_counter() # Multiple assign to the list of OFFSET Counter
-
-range_file_offset = zip(start_file_offset, finish_file_offset)
-
-range_file_offset_unzipped = list(range_file_offset)
-
-number_of_files = indexnumeral / 2 / 4 # This is the number of files calculated through the indexnum
-
-print("Number of files: ", number_of_files)
-
-def file_id():
-    file_id_names_rep = []   
-    for start_id, end_id in range_fileid_unzipped:
-        start_id, end_id
-        for id_names in list_to_dict:
-            file_id_names_ex = list_to_dict[start_id:end_id]
-            if end_id >= indexnumeral:
-                break
-            file_id_names_rep.append(file_id_names_ex)
-    final_id_names = []
-    f_id_names = [i for n, i in enumerate(file_id_names_rep) if i not in file_id_names_rep[:n]]
-    final_id_names.append(f_id_names)
-    return final_id_names
-
-final_id_names = file_id()
-
-
-
-def offset_id():
-    offset_id_rep = []   
-    for start_offset_id, end_offset_id in range_file_offset_unzipped:
-        start_offset_id, end_offset_id
-        for id_offsets in list_to_dict:
-            offset_id_ex = list_to_dict[start_offset_id:end_offset_id]
-            if end_offset_id > indexnumeral: # Here the condition to reach the last offset must be greater than, because reach the end of the list
-                break
-            offset_id_rep.append(offset_id_ex)
-    final_id_offset = []
-    f_id_offset = [i for n, i in enumerate(offset_id_rep) if i not in offset_id_rep[:n]]
-    final_id_offset.append(f_id_offset)
-    return final_id_offset
-
-final_id_offset = offset_id()
-
-
-def deff_final_dict_name():
-    listed_names = []
-    for final_names in final_id_names:
-        for names in final_names:
-            listed_names.append(str(names)) # With this convert the list-int to a single string chain
-    return listed_names
-
-deff_listed_names = deff_final_dict_name()
-
-
-def deff_final_dict_offset():
-    listed_offsets = []
-    for final_offsets in final_id_offset:
-        for offsets in final_offsets:
-            listed_offsets.append(offsets)
-    return listed_offsets
-
-deff_listed_offsets = deff_final_dict_offset()
-
-deff_list = dict(zip(deff_listed_names, deff_listed_offsets)) # this build the dictionary in a simple way, because File ID and Offsets have the same number of objects
-
-
-
+        length_list_address = len(file_address_int)
+        count_address_start = 1
+        next_address = []
+        while length_list_address > 1 :
+            next_file_address_int = file_address_int[count_address_start]
+            length_list_address -= 1
+            count_address_start += 1
+            next_address.append(next_file_address_int)
+        last_length = len(file_complete)
+        next_address.append(last_length)
+        
+        # ZIP THE ADDRESS START AND TOTAL LENGTH OF DATA PER FILE
+        global add_endadd_zip
+        add_endadd_zip = zip(file_address_int, next_address)
+    
+    def deff_split(self):
+        # SPLIT THE FILE BLOCKS, FOR PROCESSING
+        global file_block
+        file_block = []
+        for address, end_add in add_endadd_zip:
+            file_read_each = file_complete[address:end_add]
+            file_block.append(file_read_each)
+        if len(file_block) == deff_reader.read_file_numbers:
+            print("DEFF File processing in progress")
+        else:
+            print("DEFF File processing interrupted, number of files do not match with number of file blocks... closing program.[REPORT THIS ERROR AS: DEFF_SPLIT DISAGREE]")
+            exit()
