@@ -22,3 +22,10 @@ Illeprih
 Zychronix
 
 and all the people from the TLoD Global Discord!. Cheers!.
+
+
+CHANGELOG
+Version Alpha 0.1 (first release)
+Version Alpha 0.2 (14 - 01 - 2022)
+      Major refactoring of the code and logics, now have to be more consistent in the unpacking and less resource eater (lol)
+      thanks a lot in this case to Illeprih, because of him i found a very odd bug in the 0.1 code.
