@@ -7,37 +7,18 @@ this files contains all the game effects on screen,
 such sparks, fire, brightness, darkness, explosions, vanishings, etc. 
 But also contains 3D objects from each particle or character that use it. 
 
-Copyright (C) 2021 DooMMetaL
+Copyright (C) 2022 DooMMetaL
 
 """
-
-import argparse
-import os
-import sys
 import deff_reader
-import deff_writer
 import deff_chunker
-from global_variables import *
+import deff_writer
 
 print("DEFF Basic Unpacker, a simple commandline tool to unpack DEFF Files")
 
-#single_file() # Global Variable to open the file
-deff_reader.h_file() # Header Reader
-deff_reader.n_file() # Number of files
-deff_chunker.list_dict() # List to dict
-deff_chunker.fileid_counter() # Counting the Number of Files ID slice
-deff_chunker.offset_counter() # Counting the Offset Number slice
-deff_chunker.file_id() # File ID names
-#deff_chunker.file_id_counter_list() # Testing zip working as intended but not used
-deff_chunker.offset_id() # File ID Offsets
-deff_chunker.deff_final_dict_name() # Unnesting the File ID names
-deff_chunker.deff_final_dict_offset() # Unnesting the File ID Offsets
-deff_writer.file_writer() # writing the files using the dict
-deff_writer.file_size() # a simple file size calculator in bytes
-deff_writer.reverse_offset() # An offset reverser needed to work with the seek() function later
-deff_writer.list_to_hex() # convert the int inside the list to hex
-deff_writer.join_hex() # Joining the Hex values into a single one element
-deff_writer.position_int() # Transforming the hex joined into position for seek() function later
-#deff_writer.make_folder() # This is not callable from here, if not, error will happen
-deff_writer.size_each_file() # Simple file size calculator for read() function
-deff_writer.zip_three_values() # This simple cointainer, do the work of store FILE ID, OFFSETS and the FILE SIZE to used in the File_Writer
+deff_reader.DeffReader.path_deff_file(deff_reader.DeffReader.path_deff_file) # THIS IS USED IN GLOBAL SCOPE TO KNOW THE FILE
+deff_reader.DeffReader.read_header(deff_reader.DeffReader.read_header) # THIS READ DATA FROM THE HEADER TO KNOW IF A DEFF FILE OR NOT AND NUMBERS OF FILES
+deff_chunker.DeffSplit.list_of_files(deff_chunker.DeffSplit.list_of_files) # THIS READ THE LIST OF FILES INSIDE THE DEFF
+deff_chunker.DeffSplit.deff_split(deff_chunker.DeffSplit.deff_split) # THIS SPLIT THE DEFF FILE INTO SMALLER FILES
+deff_writer.WriteEachFile.read_path(deff_writer.WriteEachFile.read_path) # THIS READ AND GENERATES THE PROPER PATHS TO DUMP THE FILES
+deff_writer.WriteEachFile.file_unpacked(deff_writer.WriteEachFile.file_unpacked) # WRITE EACH FILE FROM THE DEFF INTO BINARY FILES
