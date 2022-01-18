@@ -40,12 +40,13 @@ class WriteEachFileBatch:
     
     def files_unpacked(self):
         current_index = 0
+        file_extension = f'.bin'
         for folders in path_folders_complete:
             file_ids = deff_chunker_batch.files_id_strings[current_index]
             file_blocks = deff_chunker_batch.files_blocks[current_index]
             current_id = 0
             for file_block in file_blocks:
-                with open(os.path.join(path_folders_complete[current_index], file_ids[current_id]), 'wb') as single_file:
+                with open(os.path.join(path_folders_complete[current_index], file_ids[current_id]) + file_extension, 'wb') as single_file:
                     single_file.write(file_block)
 
                 current_id += 1
