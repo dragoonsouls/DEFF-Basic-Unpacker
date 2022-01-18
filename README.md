@@ -6,7 +6,7 @@ This tool is designed to work with files dumped by:
 ## LoDModS by theflyingzamboni
 ***https://github.com/theflyingzamboni/lodmods***
 
-Just open with Python (v 3.8.2 recommended) in a commmand prompt 
+Just open with Python (v 3.8.2 recommended) in a command prompt 
 write the path to the file deff_basic_unpacker.py, and execute!.
 
 With two commands to work with files:
