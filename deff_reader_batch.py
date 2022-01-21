@@ -18,6 +18,7 @@ class DeffReaderBatch:
     def path_deff_files(self):
         global final_list_files
         global number_listed_files # USED FOR THE DEFF_WRITER_BATCH
+        global path_user_input
         print("Input the path to search in...")
         path_user_input = input()
         path_user = pathlib.Path(path_user_input).rglob("*.bin")
