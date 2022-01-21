@@ -21,6 +21,7 @@ class WriteEachFileBatch:
         global path_folders_complete
         global files_names
         global additional_folder
+        global report_dump_folder
 
         path_folders_complete = []
         files_names = []
@@ -29,6 +30,7 @@ class WriteEachFileBatch:
             path_noext = os.path.splitext(path_to_folder)[0]
             file_name = os.path.basename(path_noext)
             additional_folder = f'{path_folder}\\DEFF_Unpacked\\'
+            report_dump_folder = deff_reader_batch.path_user_input
             path_folder_complete = os.path.join(additional_folder, file_name)
             path_folders_complete.append(path_folder_complete)
             files_names.append(file_name)
@@ -53,7 +55,7 @@ class WriteEachFileBatch:
             current_index += 1
     
     def report_writer(self):
-        report_file_path = os.path.join(additional_folder, 'DEFF_Batch_Report.txt')
+        report_file_path = os.path.join(report_dump_folder, 'DEFF_Batch_Report.txt')
         with open(report_file_path, 'w') as report_file:
             report_header_text = f'Files has been Unpacked using, DooMMetaL DEFF Basic Unpacker' + '\n'+ '\n'+ '\n'
             total_deff_unpacked = f'Total DEFF Unpacked: {deff_reader_batch.number_listed_files}'+ '\n'
